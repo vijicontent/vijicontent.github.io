@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Formatter</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .json-input {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        textarea {
+            width: 100%;
+        }
+
+        .formatted-json {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>JSON Formatter</h1>
+    </header>
+    <main>
+        <div class="json-input">
+            <label for="json-input">Enter JSON Data:</label>
+            <textarea id="json-input" rows="10" cols="80"></textarea>
+        </div>
+        <div class="formatted-json">
+            <h2>Formatted JSON:</h2>
+            <pre id="formatted-json"></pre>
+			 <button id="copy-button">Copy to Clipboard</button>
+        </div>
+    </main>
+    <footer>
+        <!-- Google AdSense code can be inserted here -->
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const jsonInput = document.getElementById('json-input');
+            const formattedJson = document.getElementById('formatted-json');
+			const copyButton = document.getElementById('copy-button');
+
+            jsonInput.addEventListener('input', formatJSON);
+
+            function formatJSON() {
+                try {
+                    const inputText = jsonInput.value;
+                    const parsedJSON = JSON.parse(inputText);
+                    const formattedText = JSON.stringify(parsedJSON, null, 2);
+                    formattedJson.textContent = formattedText;
+                } catch (error) {
+                    formattedJson.textContent = 'Invalid JSON';
+                }
+            }
+			
+			copyButton.addEventListener('click', copyFormattedJSON);
+
+            function copyFormattedJSON() {
+                const textToCopy = formattedJson.textContent;
+                const textArea = document.createElement('textarea');
+                textArea.value = textToCopy;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('JSON copied to clipboard');
+            }
+        });
+    </script>
+</body>
+</html>
